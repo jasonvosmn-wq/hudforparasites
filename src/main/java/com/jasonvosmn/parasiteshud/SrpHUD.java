@@ -1,6 +1,6 @@
 package com.jasonvosmn.parasiteshud;
 
-import com.jasonvosmn.parasiteshud.hud.ParasitesHUD;
+import com.jasonvosmn.parasiteshud.hud.GuiBarHUD;
 import com.jasonvosmn.parasiteshud.proxy.CommonProxy;
 import com.jasonvosmn.parasiteshud.util.ConfigLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class SrpHUD {
     public static final String MODID = "parasiteshud";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "1.0.0";
 
 
 
@@ -32,13 +32,14 @@ public class SrpHUD {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        MinecraftForge.EVENT_BUS.register(new ParasitesHUD());
+        MinecraftForge.EVENT_BUS.register(new GuiBarHUD());
 
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+
 
     }
 

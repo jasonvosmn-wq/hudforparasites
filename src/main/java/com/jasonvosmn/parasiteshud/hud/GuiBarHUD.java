@@ -3,8 +3,12 @@ package com.jasonvosmn.parasiteshud.hud;
 import com.jasonvosmn.parasiteshud.util.ConfigLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,14 +16,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.jasonvosmn.parasiteshud.util.ConfigLoader.pointsForStage;
 
-@SideOnly(Side.CLIENT)
-public class ParasitesHUD {
-    private byte cachedStage = 0;
-    private int cachedPoints = 0;
-    private int cachedPointsNextPhase = 0;
-    private int tickCounter = 0;
-    private int hudX = 10;
-    private int hudY = 10;
+@Mod.EventBusSubscriber
+public class GuiBarHUD extends Gui {
+
+    // Путь к твоей текстуре шкалы
+    private static final ResourceLocation BAR_TEXTURE = new ResourceLocation("parasiteshud", "textures/gui/bar.png");
+
+    private static byte cachedStage = 0;
+    private static int cachedPoints = 0;
+    private static int cachedPointsNextPhase = 0;
+    private static int tickCounter = 0;
     private static final int UPDATE_INTERVAL = 20;
 
     @SubscribeEvent
@@ -36,6 +42,7 @@ public class ParasitesHUD {
         }
     }
 
+    @SideOnly(Side.CLIENT)
     private void updateCachedData() {
         Minecraft mc = Minecraft.getMinecraft();
 
@@ -75,43 +82,55 @@ public class ParasitesHUD {
     }
 
     @SubscribeEvent
-    public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.TEXT) {
-            return;
+    public static void onRenderGui(RenderGameOverlayEvent.Post event) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+            Minecraft mc = Minecraft.getMinecraft();
+            ScaledResolution sr = event.getResolution();
+
+            int screenWidth = sr.getScaledWidth();
+            int screenHeight = sr.getScaledHeight();
+
+            int barWidth = 91;
+            int barHeight = 11;
+            int x = (screenWidth / 2) - (barWidth / 2);
+            int y = screenHeight - 60;
+
+            mc.getTextureManager().bindTexture(BAR_TEXTURE);
+
+            mc.ingameGUI.drawTexturedModalRect(x, y, 0, 0, barWidth, barHeight);
+
+            byte stage = cachedStage;
+            int pointsNextStage = cachedPointsNextPhase;
+            int points = cachedPoints;
+            int pointsToNextPhase;
+            if (cachedPoints >= pointsForStage[9]) {
+                pointsToNextPhase = 0;
+            } else {
+                pointsToNextPhase = cachedPointsNextPhase - cachedPoints;
+            }
+
+
+            int pixelFill = (int) ((double) points / pointsNextStage * barWidth);
+
+            mc.ingameGUI.drawTexturedModalRect(x, y, 0, 15, pixelFill, barHeight);
+
+            FontRenderer fr = mc.fontRenderer;
+
+            String[] hudLines = {
+                    "§fStage: §e" + stage,
+                    "§fPoints: §e" + points,
+                    "§fPoints to the next stage: §e" + pointsToNextPhase
+            };
+
+            for (int i = 0; i < hudLines.length; i++) {
+                fr.drawStringWithShadow(
+                        hudLines[i],
+                        10,
+                        5 + (i * fr.FONT_HEIGHT),
+                        0xFFFFFF
+                );
+            }
+
         }
-        Minecraft mc = Minecraft.getMinecraft();
-        if (mc.gameSettings.hideGUI || mc.player.getHealth() <= 0) {
-            return;
-        }
-
-        FontRenderer fr = mc.fontRenderer;
-
-        byte stage = cachedStage;
-        int pointsNextStage = cachedPointsNextPhase;
-        int points = cachedPoints;
-        int pointsToNextPhase = 0;
-        if (cachedPoints >= pointsForStage[9] ) {
-            pointsToNextPhase = 0;
-        } else {
-            pointsToNextPhase = cachedPointsNextPhase - cachedPoints;
-        }
-
-
-        String[] hudLines = {
-                "§6=== Parasites HUD ===",
-                "§fСтадия: §e" + stage,
-                "§fPoints: §e" + points,
-                "§fОчков до следующей стадии: §e" + pointsToNextPhase
-        };
-
-        for (int i = 0; i < hudLines.length; i++) {
-            fr.drawStringWithShadow(
-                    hudLines[i],
-                    hudX,
-                    hudY + (i * fr.FONT_HEIGHT),
-                    0xFFFFFF
-            );
-        }
-
     }
 }
