@@ -14,19 +14,16 @@ public class GuiMoveHUD extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        // Темный фон
         this.drawDefaultBackground();
 
         float scale = (float) ModConfig.hudScale;
         int x = ModConfig.hudX;
         int y = ModConfig.hudY;
 
-        // Рисуем рамку вокруг шкалы
         int scaledW = (int) (barWidth * scale);
         int scaledH = (int) (barHeight * scale);
         drawRect(x - 2, y - 2, x + scaledW + 2, y + scaledH + 2, 0x55FFFFFF);
 
-        // Инструкции на экране
         this.drawCenteredString(fontRenderer, "Перетаскивание: ЛКМ | Масштаб: Колесико мыши", width / 2, 20, 0xFFFFFF);
         this.drawCenteredString(fontRenderer, "Текущий масштаб: " + String.format("%.2f", scale), width / 2, 35, 0xAAAAAA);
         this.drawCenteredString(fontRenderer, "Нажмите ESC для сохранения", width / 2, height - 30, 0xFFFFFF);
@@ -53,8 +50,7 @@ public class GuiMoveHUD extends GuiScreen {
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        if (clickedMouseButton == 0) { // Левая кнопка мыши
-            // Перетаскиваем, учитывая масштаб, чтобы мышь была в центре шкалы
+        if (clickedMouseButton == 0) {
             ModConfig.hudX = mouseX - (int)(barWidth * ModConfig.hudScale / 2);
             ModConfig.hudY = mouseY - (int)(barHeight * ModConfig.hudScale / 2);
         }
@@ -62,7 +58,6 @@ public class GuiMoveHUD extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        // Важно: сохраняем изменения в файл при выходе
         ConfigManager.sync("parasiteshud", Config.Type.INSTANCE);
     }
 

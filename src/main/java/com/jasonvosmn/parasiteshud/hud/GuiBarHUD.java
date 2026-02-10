@@ -2,6 +2,7 @@ package com.jasonvosmn.parasiteshud.hud;
 
 import com.jasonvosmn.parasiteshud.util.ConfigLoader;
 import com.jasonvosmn.parasiteshud.util.KeyBindings;
+import com.jasonvosmn.parasiteshud.util.Logger;
 import com.jasonvosmn.parasiteshud.util.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -20,7 +21,17 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class GuiBarHUD extends Gui {
 
-    private static final ResourceLocation BAR_TEXTURE = new ResourceLocation("parasiteshud", "textures/gui/bar.png");
+    private static final ResourceLocation BAR_TEXTURE_0 = new ResourceLocation("parasiteshud", "textures/gui/bar0.png");
+    private static final ResourceLocation BAR_TEXTURE_1 = new ResourceLocation("parasiteshud", "textures/gui/bar1.png");
+    private static final ResourceLocation BAR_TEXTURE_2 = new ResourceLocation("parasiteshud", "textures/gui/bar2.png");
+    private static final ResourceLocation BAR_TEXTURE_3 = new ResourceLocation("parasiteshud", "textures/gui/bar3.png");
+    private static final ResourceLocation BAR_TEXTURE_4 = new ResourceLocation("parasiteshud", "textures/gui/bar4.png");
+    private static final ResourceLocation BAR_TEXTURE_5 = new ResourceLocation("parasiteshud", "textures/gui/bar5.png");
+    private static final ResourceLocation BAR_TEXTURE_6 = new ResourceLocation("parasiteshud", "textures/gui/bar6.png");
+    private static final ResourceLocation BAR_TEXTURE_7 = new ResourceLocation("parasiteshud", "textures/gui/bar7.png");
+    private static final ResourceLocation BAR_TEXTURE_8 = new ResourceLocation("parasiteshud", "textures/gui/bar8.png");
+    private static final ResourceLocation BAR_TEXTURE_9 = new ResourceLocation("parasiteshud", "textures/gui/bar9.png");
+    private static final ResourceLocation BAR_TEXTURE_10 = new ResourceLocation("parasiteshud", "textures/gui/bar10.png");
 
     private static byte cachedStage = 0;
     private static int cachedPoints = 0;
@@ -90,7 +101,45 @@ public class GuiBarHUD extends Gui {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.scale(scale, scale, scale);
 
-            mc.getTextureManager().bindTexture(BAR_TEXTURE);
+            switch (cachedStage) {
+                case (0):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_0);
+                    break;
+                case (1):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_1);
+                    break;
+                case (2):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_2);
+                    break;
+                case (3):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_3);
+                    break;
+                case (4):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_4);
+                    break;
+                case (5):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_5);
+                    break;
+                case (6):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_6);
+                    break;
+                case (7):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_7);
+                    break;
+                case (8):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_8);
+                    break;
+                case (9):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_9);
+                    break;
+                case (10):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_10);
+                    break;
+                default:
+                    Logger.warn("Texture not found");
+                    break;
+            }
+
 
             int pointsNextStage = cachedPointsNextPhase > 0 ? cachedPointsNextPhase : 1;
             int points = cachedPoints;
