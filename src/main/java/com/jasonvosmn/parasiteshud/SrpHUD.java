@@ -11,11 +11,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 
-@Mod(modid = SrpHUD.MODID, name = "parasiteshud", version = SrpHUD.VERSION, dependencies = "required-after:forge@[14.23.5.2847,);required-after:srparasites@[1.9.21,)", guiFactory = "com.jasonvosmn.parasiteshud.util.GuiFactory")
+@Mod(modid = SrpHUD.MODID, name = "parasiteshud", version = SrpHUD.VERSION, dependencies = "required-after:forge@[14.23.5.2847,);required-after:srparasites@[1.10.0,)", guiFactory = "com.jasonvosmn.parasiteshud.util.GuiFactory")
 
 public class SrpHUD {
     public static final String MODID = "parasiteshud";
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.2.1";
 
 
 

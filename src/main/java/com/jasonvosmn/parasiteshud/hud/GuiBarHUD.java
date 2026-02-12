@@ -6,7 +6,6 @@ import com.jasonvosmn.parasiteshud.util.Logger;
 import com.jasonvosmn.parasiteshud.util.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +31,7 @@ public class GuiBarHUD extends Gui {
     private static final ResourceLocation BAR_TEXTURE_8 = new ResourceLocation("parasiteshud", "textures/gui/bar8.png");
     private static final ResourceLocation BAR_TEXTURE_9 = new ResourceLocation("parasiteshud", "textures/gui/bar9.png");
     private static final ResourceLocation BAR_TEXTURE_10 = new ResourceLocation("parasiteshud", "textures/gui/bar10.png");
+    private static final ResourceLocation BAR_TEXTURE_11 = new ResourceLocation("parasiteshud", "textures/gui/bar-1.png");
 
     private static byte cachedStage = 0;
     private static int cachedPoints = 0;
@@ -87,7 +87,6 @@ public class GuiBarHUD extends Gui {
     public static void onRenderGui(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             Minecraft mc = Minecraft.getMinecraft();
-            ScaledResolution sr = event.getResolution();
 
             int barWidth = 142;
             int barHeight = 28;
@@ -102,6 +101,9 @@ public class GuiBarHUD extends Gui {
             GlStateManager.scale(scale, scale, scale);
 
             switch (cachedStage) {
+                case (-1):
+                    mc.getTextureManager().bindTexture(BAR_TEXTURE_11);
+                    break;
                 case (0):
                     mc.getTextureManager().bindTexture(BAR_TEXTURE_0);
                     break;
@@ -140,11 +142,17 @@ public class GuiBarHUD extends Gui {
                     break;
             }
 
-
-            int pointsNextStage = cachedPointsNextPhase > 0 ? cachedPointsNextPhase : 1;
+            byte stage = cachedStage;
+            int pointsNextStage = cachedPointsNextPhase;
             int points = cachedPoints;
-            if (points > pointsNextStage) points = pointsNextStage;
-            int pixelFill = (int) ((double) points / pointsNextStage * barWidth);
+
+            int pixelFill;
+            if (points < 0) {
+                pixelFill = (int) ((double) 1 / Math.abs(points) * barWidth);
+            } else {
+                pixelFill = (int) ((double) points / pointsNextStage * barWidth);
+            }
+
 
             //Координаты шкалы (u=29, v=32)
             mc.ingameGUI.drawTexturedModalRect(x+29, y+6, 29, 32, pixelFill, barHeight);
