@@ -1,16 +1,20 @@
 package com.jasonvosmn.parasiteshud.proxy;
 
-import com.jasonvosmn.parasiteshud.hud.ParasitesHUD;
+import com.jasonvosmn.parasiteshud.hud.GuiBarHUD;
+import com.jasonvosmn.parasiteshud.util.KeyBindings;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy {
-    private ParasitesHUD parasitesHUD;
+    private GuiBarHUD guiBarHUD;
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        if (event.getSide().isClient()) {
+            KeyBindings.register();
+        }
     }
 
     @Override

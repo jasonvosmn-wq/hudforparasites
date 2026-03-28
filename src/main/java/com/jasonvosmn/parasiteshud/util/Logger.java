@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 public class Logger {
     // Используем полное имя класса, чтобы избежать конфликта
     private static final org.apache.logging.log4j.Logger LOGGER =
-            LogManager.getLogger("SrpHUD");
+            LogManager.getLogger("ParasitesHUD");
 
     public static void info(Object msg) {
         LOGGER.info(msg);

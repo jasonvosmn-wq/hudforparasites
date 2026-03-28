@@ -12,25 +12,28 @@ import java.io.File;
 
 
 public class ConfigLoader {
-    public static int[] pointsForStage = new int[10];
+    public static int[] pointsForStage = new int[11];
 
     public static byte getPhase(EntityPlayer player) {
         World world = player.getEntityWorld();
         int id = world.provider.getDimension();
-        return SRPSaveData.get(world).getEvolutionPhase(id);
+        return SRPSaveData.get(world, id).getEvolutionPhase(id);
     }
 
     public static int getTotalPoints (EntityPlayer player) {
         World world = player.getEntityWorld();
         int id = world.provider.getDimension();
-        return SRPSaveData.get(world).getTotalKills(id);
+        return SRPSaveData.get(world, id).getTotalKills(id);
     }
 
     public static int getPointsNextPhase(byte phase) {
         if (phase == ConfigLoader.pointsForStage.length) {
             return 0;
+        } else if (phase < 0) {
+            return ConfigLoader.pointsForStage[10];
+        } else {
+            return ConfigLoader.pointsForStage[phase];
         }
-        return ConfigLoader.pointsForStage[phase];
     }
 
     public static void initConfig(FMLPreInitializationEvent event) {
@@ -48,10 +51,13 @@ public class ConfigLoader {
                     Reference.StageNames.ALL_STAGES[i], 0, 1, Integer.MAX_VALUE,
                     "Sets the required number of points for " + Reference.StageNames.ALL_STAGES[i]);
 
-            // ВАЖНО: Проверьте какие значения загружаются
             Logger.info(String.format("Phase %d: %d points required (loaded from config)",
                     i + 1, pointsForStage[i]));
         }
+        pointsForStage[10] = 0;
+        Logger.info(String.format("Phase %d: %d points required (loaded from config)",
+                -1, pointsForStage[10]));
+
         config.save();
         return true;
     }
