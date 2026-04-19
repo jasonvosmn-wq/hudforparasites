@@ -39,10 +39,8 @@ public class GuiMoveHUD extends GuiScreen {
         int wheel = Mouse.getEventDWheel();
         if (wheel != 0) {
             if (wheel > 0) {
-                // Крутим вверх - увеличиваем масштаб
                 ModConfig.hudScale = Math.min(2.0, ModConfig.hudScale + 0.05);
             } else {
-                // Крутим вниз - уменьшаем масштаб
                 ModConfig.hudScale = Math.max(0.1, ModConfig.hudScale - 0.05);
             }
         }

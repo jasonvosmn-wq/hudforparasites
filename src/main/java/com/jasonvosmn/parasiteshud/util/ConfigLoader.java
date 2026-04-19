@@ -17,13 +17,13 @@ public class ConfigLoader {
     public static byte getPhase(EntityPlayer player) {
         World world = player.getEntityWorld();
         int id = world.provider.getDimension();
-        return SRPSaveData.get(world, id).getEvolutionPhase(id);
+        return SRPSaveData.get(world).getEvolutionPhase(id);
     }
 
     public static int getTotalPoints (EntityPlayer player) {
         World world = player.getEntityWorld();
         int id = world.provider.getDimension();
-        return SRPSaveData.get(world, id).getTotalKills(id);
+        return SRPSaveData.get(world).getTotalKills(id);
     }
 
     public static int getPointsNextPhase(byte phase) {
@@ -36,13 +36,19 @@ public class ConfigLoader {
         }
     }
 
+    public static int getCooldown (EntityPlayer player){
+        World world = player.getEntityWorld();
+        int id = world.provider.getDimension();
+        return SRPSaveData.get(world).getCooldown(world,id);
+    }
+
     public static void initConfig(FMLPreInitializationEvent event) {
         File configDir = event.getModConfigurationDirectory();
         CommonProxy.configsystems = new Configuration(new File(configDir.getPath(), "srparasites/SRParasitesSystems.cfg"));
         readConfig();
     }
 
-    public static boolean readConfig() {
+    public static void readConfig() {
         Configuration config = CommonProxy.configsystems;
         config.load();
 
@@ -59,6 +65,5 @@ public class ConfigLoader {
                 -1, pointsForStage[10]));
 
         config.save();
-        return true;
     }
 }

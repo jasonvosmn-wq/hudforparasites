@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber
 public class RegistryHandler {
 
-    public static final Item RUBY = new ItemBase("ruby");
+    public static final Item RUBY = new ItemBase("srpscaner");
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
