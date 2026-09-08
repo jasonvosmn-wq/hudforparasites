@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class SrpHUD {
     public static final String MODID = "parasiteshud";
-    public static final String VERSION = "1.2.3";
+    public static final String VERSION = "1.2.4";
     public static SimpleNetworkWrapper NETWORK;
 
     @SidedProxy(clientSide = "com.jasonvosmn.parasiteshud.proxy.ClientProxy", serverSide = "com.jasonvosmn.parasiteshud.proxy.CommonProxy")
@@ -44,7 +44,6 @@ public class SrpHUD {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-
 
     }
 

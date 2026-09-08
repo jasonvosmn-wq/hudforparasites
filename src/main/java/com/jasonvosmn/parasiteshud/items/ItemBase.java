@@ -59,7 +59,7 @@ public class ItemBase extends Item {
 
         // Динамическое описание (например, если нажат Shift)
         if (net.minecraft.client.gui.GuiScreen.isShiftKeyDown()) {
-            tooltip.add(TextFormatting.DARK_RED + "Внимание: ты гей!");
+            tooltip.add(TextFormatting.DARK_RED + "Отображение Стадии, Очков, Времени Перезарядки, Очков до следующей стадии)");
         } else {
             tooltip.add(TextFormatting.DARK_GRAY + "Удерживайте " + TextFormatting.WHITE + "SHIFT" + TextFormatting.DARK_GRAY + " для подробностей.");
         }
